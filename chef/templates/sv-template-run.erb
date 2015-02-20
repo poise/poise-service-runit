@@ -1,0 +1,4 @@
+#!/bin/sh
+exec 2>&1
+cd <%= @options[:new_resource].directory %>
+exec chpst -u <%= @options[:new_resource].user %> -U <%= @options[:new_resource].user %> <%= @options[:new_resource].command %>
