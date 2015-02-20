@@ -17,6 +17,10 @@
 require 'serverspec'
 set :backend, :exec
 
+describe service('poise_test') do
+  it { is_expected.to be_running.under('runit') }
+end
+
 describe process('ruby /usr/bin/poise_test') do
   it { is_expected.to be_running }
 end
