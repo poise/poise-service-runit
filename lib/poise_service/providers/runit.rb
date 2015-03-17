@@ -53,9 +53,28 @@ module PoiseService
         end
       end
 
-      # @see Base#service_resource
+      # Hack to subclass the upstream provider to override #inside_docker?
+      #
+      # @return [Class]
+      def service_provider
+        Class.new(Chef::Provider::Service::Runit) do
+          def self.name
+            'Chef::Provider::Service::Runit'
+          end
+
+          def inside_docker?
+            # We account for docker already so just lock it to false.
+            false
+          end
+        end
+      end
+
+      # Create the service resource for Runit.
+      #
+      # @return [Chef::Resource]
       def service_resource
         @service_resource ||= Chef::Resource::RunitService.new(new_resource.name, run_context).tap do |r|
+          r.provider service_provider
           r.service_name new_resource.service_name
           r.owner 'root'
           r.group 'root'
