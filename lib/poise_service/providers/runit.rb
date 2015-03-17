@@ -25,7 +25,9 @@ module PoiseService
       private
 
       def recipes
-        'runit'
+        # I think there is a bug in Poise's include_recipe with nested recipes.
+        # @todo Fix this in Poise so it can go back to just 'runit'
+        ['runit'] + ( node.platform_family?('rhel') ? ['build-essential'] : [])
       end
 
       def create_service
