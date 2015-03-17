@@ -64,6 +64,8 @@ module PoiseService
           r.env new_resource.environment
           r.run_template_name 'template'
           r.log_template_name 'template'
+          r.control options['control'].keys if options['control']
+          r.control_template_names Hash.new { 'template-control' } # There is no name only Zuul.
           r.cookbook 'poise-service-runit'
         end
       end
