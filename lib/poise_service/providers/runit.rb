@@ -19,17 +19,27 @@ require 'poise_service/providers/base'
 
 module PoiseService
   module Providers
+    # Poise-service provider for [Runit](http://smarden.org/runit/index.html).
+    #
+    # @since 1.0.0
+    # @example
+    #   poise_service 'myapp' do
+    #     command 'myapp --serve'
+    #     provider :runit
+    #   end
     class Runit < Base
       poise_service_provides(:runit)
 
       private
 
+      # Recipes to include for Runit.
       def recipes
         # I think there is a bug in Poise's include_recipe with nested recipes.
         # @todo Fix this in Poise so it can go back to just 'runit'
         ['runit'] + ( node.platform_family?('rhel') ? ['build-essential'] : [])
       end
 
+      # Set up secondary service files for Runit.
       def create_service
         # Enable automatically creates the service with Runit.
         directory "/var/log/#{new_resource.service_name}" do
@@ -48,6 +58,7 @@ module PoiseService
         end
       end
 
+      # Tear down secondary service files for Runit.
       def destroy_service
         # Disable automatically destroys the service with Runit.
         directory "/var/log/#{new_resource.service_name}" do
