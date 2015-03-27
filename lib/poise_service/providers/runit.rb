@@ -60,6 +60,16 @@ module PoiseService
         'runit'
       end
 
+      # Find the command to run run in dummy mode for testing inside docker.
+      # If this returns nil, no dummy service is started.
+      #
+      # @return [String, nil]
+      def dummy_command
+        return options['dummy_command'] if options.include?('dummy_command')
+        return nil unless node['virtualization'] && %w{docker lxc}.include?(node['virtualization']['system'])
+        value_for_platform_family(debian: '/usr/sbin/runsvdir-start', rhel: '/sbin/runsvdir -P -H /etc/service')
+      end
+
       # Set up secondary service files for Runit.
       def create_service
         check_signals!
@@ -70,12 +80,12 @@ module PoiseService
           mode '700'
         end
 
-        # HAXX: Deal with starting runsvdir under Docker on Ubuntu/Debian. The
-        # system packages use Upstart which doesn't run under Docker. Yo dawg.
-        if node['platform_family'] == 'debian' && node['virtualization'] && %w{docker lxc}.include?(node['virtualization']['system'])
+        # HAXX: Deal with starting runsvdir under Docker on Ubuntu/Debian/RHEL.
+        # System packages use Upstart which doesn't run under Docker. Yo dawg.
+        if cmd = dummy_command
           poise_service 'runsvdir' do
-            command '/usr/sbin/runsvdir-start'
-            provider :sysvinit
+            command cmd
+            provider :dummy
           end
         end
       end
