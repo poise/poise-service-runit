@@ -53,6 +53,18 @@ module PoiseService
         end
       end
 
+      # Parse the PID from sv output.
+      #
+      # @return [Integer]
+      def pid
+        cmd = shell_out(%w{sv status} + [new_resource.service_name]])
+        if !cmd.error? && md = cmd.stdout.match(/run: #{new_resource.service_name}: \(pid (\d+)\)/)
+          md[1].to_i
+        else
+          nil
+        end
+      end
+
       private
 
       # Recipes to include for Runit.
