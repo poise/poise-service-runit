@@ -1,2 +1,6 @@
 #!/bin/sh
+<%- if @options['control']['t'] -%>
 <%= @options['control']['t'] %>
+<%- else -%>
+sv <%= @options['runit_signals'][@options['new_resource'].stop_signal] %> <%= @options['new_resource'].service_name %>
+<%- end -%>

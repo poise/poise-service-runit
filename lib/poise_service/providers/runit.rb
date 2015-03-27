@@ -30,6 +30,29 @@ module PoiseService
     class Runit < Base
       poise_service_provides(:runit)
 
+      # A mapping of signal names to sv subcommands.
+      RUNIT_SIGNALS = {
+        'STOP' => 'pause',
+        'CONT' => 'cont',
+        'HUP' => 'hup',
+        'ALRM' => 'alarm',
+        'INT' => 'interrupt',
+        'QUIT' => 'quit',
+        'USR1' => '1',
+        'USR2' => '2',
+        'TERM' => 'term',
+        'KILL' => 'kill',
+      }
+
+      # Reload action for the runit provider. Runs hup on the service resource
+      # because upstream's reload action runs sv force-reload which is ~restart.
+      def action_reload
+        return if options['never_reload']
+        notify_if_service do
+          service_resource.run_action(:hup)
+        end
+      end
+
       private
 
       # Recipes to include for Runit.
@@ -41,6 +64,7 @@ module PoiseService
 
       # Set up secondary service files for Runit.
       def create_service
+        check_signals!
         # Enable automatically creates the service with Runit.
         directory "/var/log/#{new_resource.service_name}" do
           owner 'root'
@@ -86,21 +110,39 @@ module PoiseService
       #
       # @return [Chef::Resource]
       def service_resource
+        check_signals!
         @service_resource ||= Chef::Resource::RunitService.new(new_resource.name, run_context).tap do |r|
           r.provider service_provider
           r.service_name new_resource.service_name
           r.owner 'root'
           r.group 'root'
           r.sv_timeout options['timeout'] if options['timeout']
-          r.options options.merge(new_resource: new_resource)
-          r.env new_resource.environment
+          r.options options.merge(new_resource: new_resource, runit_signals: RUNIT_SIGNALS)
+          r.env options['environment'] || new_resource.environment
           r.run_template_name 'template'
           r.log_template_name 'template'
-          r.control options['control'].keys if options['control']
+          # Force h and t because those map to stop_signal and reload_signal.
+          control = []
+          control << 'h' if new_resource.reload_signal != 'HUP'
+          control << 't' if new_resource.stop_signal != 'TERM'
+          control += options['control'].keys if options['control']
+          r.control control.uniq!
           r.control_template_names Hash.new { 'template-control' } # There is no name only Zuul.
           r.cookbook 'poise-service-runit'
+          # Runit only supports the equivalent of our 'immediately' mode :-/
+          r.restart_on_update new_resource.restart_on_update
         end
       end
+
+      def check_signals!
+        %w{reload_signal stop_signal}.each do |sig_type|
+          signal = new_resource.send(sig_type)
+          unless RUNIT_SIGNALS[signal]
+            raise PoiseService::Error.new("Runit does not support sending #{signal}, please change the #{sig_type} on #{new_resource.to_s}")
+          end
+        end
+      end
+
     end
   end
 end
