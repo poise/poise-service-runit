@@ -57,9 +57,7 @@ module PoiseService
 
       # Recipes to include for Runit.
       def recipes
-        # I think there is a bug in Poise's include_recipe with nested recipes.
-        # @todo Fix this in Poise so it can go back to just 'runit'
-        ['runit'] + ( node.platform_family?('rhel') ? ['build-essential'] : [])
+        'runit'
       end
 
       # Set up secondary service files for Runit.
