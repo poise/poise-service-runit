@@ -1,6 +1,5 @@
 #!/bin/sh
-<%- if @options['control']['h'] -%>
+<%- if @options['control'] && @options['control']['h'] -%>
 <%= @options['control']['h'] %>
 <%- else -%>
-sv <%= @options['runit_signals'][@options['new_resource'].reload_signal] %> <%= @options['new_resource'].service_name %>
-<%- end -%>
+<%= @options['sv_bin'] %> <%= @options['runit_signals'][@options['new_resource'].reload_signal] %> <%= File.join(@options['sv_dir'], @options['new_resource'].service_name) %><%- end -%>
