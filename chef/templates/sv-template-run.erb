@@ -1,4 +1,8 @@
 #!/bin/sh
 exec 2>&1
 cd <%= @options[:new_resource].directory %>
-exec chpst -u <%= @options[:new_resource].user %> -U <%= @options[:new_resource].user %> <%= @options[:new_resource].command %>
+if [ -d "<%= File.join(@options['sv_dir'], @options['new_resource'].service_name, 'env') %>" ]; then
+  exec chpst -u "<%= @options[:new_resource].user %>" -U "<%= @options[:new_resource].user %>" -e "<%= File.join(@options['sv_dir'], @options['new_resource'].service_name, 'env') %>" <%= @options[:new_resource].command %>
+else
+  exec chpst -u "<%= @options[:new_resource].user %>" -U "<%= @options[:new_resource].user %>" <%= @options[:new_resource].command %>
+fi
