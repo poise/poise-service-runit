@@ -14,13 +14,8 @@
 # limitations under the License.
 #
 
-require 'serverspec'
-set :backend, :exec
+require 'poise_service/spec_helper'
 
-describe service('poise_test') do
-  it { is_expected.to be_running.under('runit') }
-end
-
-describe process('ruby /usr/bin/poise_test') do
-  it { is_expected.to be_running }
+describe 'runit provider' do
+  it_should_behave_like 'a poise_service_test', 'runit', 8000, false
 end
