@@ -16,7 +16,7 @@
 
 
 module PoiseService
-  module Runit
+  class Runit
     VERSION = '1.0.0'
   end
 end
