@@ -131,6 +131,8 @@ module PoiseService
         r.service_name new_resource.service_name
         r.owner 'root'
         r.group 'root'
+        r.sv_bin options['sv_bin']
+        r.sv_dir options['sv_dir']
         r.sv_timeout options['timeout'] if options['timeout']
         r.options options.merge(new_resource: new_resource, runit_signals: RUNIT_SIGNALS)
         r.env Mash.new(options['environment'] || new_resource.environment)
