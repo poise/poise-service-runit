@@ -32,10 +32,9 @@ Gem::Specification.new do |spec|
   spec.executables = spec.files.grep(%r{^bin/}) { |f| File.basename(f) }
   spec.test_files = spec.files.grep(%r{^(test|spec|features)/})
   spec.require_paths = %w{lib}
-  spec.metadata['halite_entry_point'] = 'poise_service/runit'
 
-  spec.add_dependency 'halite', '~> 1.0.0.rc.1'
-  spec.add_dependency 'poise', '~> 1.1'
+  spec.add_dependency 'halite', '~> 1.0'
+  spec.add_dependency 'poise', '~> 2.0'
   spec.add_dependency 'poise-service', '~> 1.0'
 
   spec.add_development_dependency 'poise-boiler', '~> 1.0'

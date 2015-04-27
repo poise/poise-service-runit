@@ -14,14 +14,4 @@
 # limitations under the License.
 #
 
-
-module PoiseService
-  # A plugin for poise-service to manage
-  # [Runit](http://smarden.org/runit/index.html) services.
-  #
-  # @since 1.0.0
-  module Runit
-    autoload :Provider, 'poise_service/runit/provider'
-    autoload :VERSION, 'poise_service/runit/version'
-  end
-end
+require 'poise_service/runit/provider'
