@@ -3,3 +3,4 @@
 .vagrant/
 test/docker/
 Gemfile.lock
+pkg/
