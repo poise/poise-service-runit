@@ -11,7 +11,9 @@ A [Runit](http://smarden.org/runit/) provider for
 [poise-service](https://github.com/poise/poise-service).
 
 See [poise-service](https://github.com/poise/poise-service) for more information
-about usage and configuration.
+about usage and configuration. Add `poise-service-runit` to a cookbook's
+dependencies to enable the plugin. Once enabled, `:runit` will also be set as
+the default service provider.
 
 ## Sponsors
 
