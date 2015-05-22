@@ -1,4 +1,4 @@
-# Poise-Service-Runit Cookbook
+# Poise Service Runit Cookbook
 
 [![Build Status](https://img.shields.io/travis/poise/poise-service-runit.svg)](https://travis-ci.org/poise/poise-service-runit)
 [![Gem Version](https://img.shields.io/gem/v/poise-service-runit.svg)](https://rubygems.org/gems/poise-service-runit)
@@ -9,6 +9,9 @@
 
 A [Runit](http://smarden.org/runit/) provider for
 [poise-service](https://github.com/poise/poise-service).
+
+See [poise-service](https://github.com/poise/poise-service) for more information
+about usage and configuration.
 
 ## Sponsors
 
