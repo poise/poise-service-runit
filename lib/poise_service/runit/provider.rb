@@ -16,6 +16,7 @@
 
 require 'chef/mash'
 
+require 'poise_service/error'
 require 'poise_service/service_providers/base'
 
 
@@ -99,9 +100,17 @@ module PoiseService
       #
       # @return [Class]
       def service_provider
-        Class.new(Chef::Provider::Service::Runit) do
+        base_class = if defined?(Chef::Provider::RunitService)
+          Chef::Provider::RunitService
+        elsif defined?(Chef::Provider::Service::Runit)
+          Chef::Provider::Service::Runit
+        else
+          raise PoiseService::Error.new('Unable to find runit_service provider class.')
+        end
+        Class.new(base_class) do
+          # Lie about the name.
           def self.name
-            'Chef::Provider::Service::Runit'
+            superclass.name
           end
 
           def inside_docker?
