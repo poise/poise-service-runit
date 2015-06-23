@@ -95,9 +95,9 @@ module PoiseService
       # @todo Remove once the upstream bug is fixed.
       def enable_service
         super
-        sleep 1 until ::FileTest.pipe?("#{service_resource.service_dir_name}/supervise/ok")
+        sleep 1 until ::FileTest.pipe?("#{service_resource.service_dir}/#{service_resource.service_name}/supervise/ok")
         if service_resource.log
-          sleep 1 until ::FileTest.pipe?("#{service_resource.service_dir_name}/log/supervise/ok")
+          sleep 1 until ::FileTest.pipe?("#{service_resource.service_dir}/#{service_resource.service_name}/log/supervise/ok")
         end
       end
 
