@@ -39,5 +39,5 @@ Gem::Specification.new do |spec|
 
   spec.add_development_dependency 'poise-boiler', '~> 1.0'
 
-  spec.metadata['halite_dependencies'] = 'runit ~> 1.5'
+  spec.metadata['halite_dependencies'] = 'runit ~> 1.6.0'
 end
