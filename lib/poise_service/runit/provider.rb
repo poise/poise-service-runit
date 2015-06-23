@@ -47,6 +47,20 @@ module PoiseService
         'KILL' => 'kill',
       }
 
+      # Hack the enable action for the runit provider. This forces it to wait
+      # until runsv recognizes the new service. This is tracked upstream in
+      # https://github.com/hw-cookbooks/runit/issues/136
+      #
+      # @api private
+      # @todo Remove once the upstream bug is fixed.
+      def action_enable
+        super
+        sleep 1 until ::FileTest.pipe?("#{service_resource.service_dir_name}/supervise/ok")
+        if service_resource.log
+          sleep 1 until ::FileTest.pipe?("#{service_resource.service_dir_name}/log/supervise/ok")
+        end
+      end
+
       # Reload action for the runit provider. Runs hup on the service resource
       # because upstream's reload action runs sv force-reload which is ~restart.
       def action_reload
