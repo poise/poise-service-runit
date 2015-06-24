@@ -1,6 +1,11 @@
+Gemfile.lock
+Berksfile.lock
+test/gemfiles/*.lock
 .kitchen/
 .kitchen.local.yml
-.vagrant/
 test/docker/
-Gemfile.lock
+coverage/
 pkg/
+.yardoc/
+doc/
+
