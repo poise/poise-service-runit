@@ -26,3 +26,8 @@ group :test do
   cookbook 'poise-service-runit_test', path: 'test/cookbooks/poise-service-runit_test'
   cookbook 'apt'
 end
+
+# For the master build, pull in the runit cookbook from git.
+if ENV['BUNDLE_GEMFILE'] && ENV['BUNDLE_GEMFILE'].include?('master.gemfile')
+  cookbook 'runit', github: 'hw-cookbooks/runit'
+end
