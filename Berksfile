@@ -28,6 +28,6 @@ group :test do
 end
 
 # For the master build, pull in the runit cookbook from git.
-if ENV['BUNDLE_GEMFILE'] && ENV['BUNDLE_GEMFILE'].include?('master.gemfile')
-  cookbook 'runit', github: 'hw-cookbooks/runit'
-end
+# if ENV['POISE_MASTER_BUILD']
+#   cookbook 'runit', github: 'hw-cookbooks/runit'
+# end
