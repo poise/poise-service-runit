@@ -14,6 +14,8 @@
 # limitations under the License.
 #
 
+require 'poise_service/resources/poise_service_test'
+
 poise_service_test 'runit' do
   service_provider :runit
   base_port 8000
