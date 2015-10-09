@@ -72,7 +72,14 @@ module PoiseService
 
       # Recipes to include for Runit.
       def recipes
-        'runit'
+        ['runit', proc {
+          begin
+            unless node['virtualization'] && %w{docker lxc}.include?(node['virtualization']['system'])
+              resources('service[runsvdir-start]').action(:nothing)
+            end
+          rescue Chef::Exceptions::ResourceNotFound
+          end
+        }]
       end
 
       # Set up secondary service files for Runit.
