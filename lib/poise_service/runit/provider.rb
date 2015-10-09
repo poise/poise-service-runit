@@ -74,7 +74,7 @@ module PoiseService
       def recipes
         ['runit', proc {
           begin
-            unless node['virtualization'] && %w{docker lxc}.include?(node['virtualization']['system'])
+            if node['virtualization'] && %w{docker lxc}.include?(node['virtualization']['system'])
               resources('service[runsvdir-start]').action(:nothing)
             end
           rescue Chef::Exceptions::ResourceNotFound
