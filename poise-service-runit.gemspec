@@ -39,9 +39,5 @@ Gem::Specification.new do |spec|
 
   spec.add_development_dependency 'poise-boiler', '~> 1.0'
 
-  spec.metadata['halite_dependencies'] = if ENV['POISE_MASTER_BUILD']
-    'runit ~> 1.7.0'
-  else
-    'runit ~> 1.6.0'
-  end
+  spec.metadata['halite_dependencies'] = 'runit ~> 1.7'
 end
