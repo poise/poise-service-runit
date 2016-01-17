@@ -167,7 +167,14 @@ module PoiseService
           r.sv_timeout options['timeout'] if options['timeout']
           r.options options.merge(new_resource: new_resource, runit_signals: RUNIT_SIGNALS)
           r.env Mash.new(options['environment'] || new_resource.environment)
-          r.run_template_name 'template'
+          if options['template']
+            cookbook, template = options['template'].split(':')
+            r.cookbook cookbook
+            r.run_template_name  template
+          else
+            r.cookbook cookbook 'poise-service-runit'
+            r.run_template_name 'template'
+          end
           r.log_template_name 'template'
           # Force h and t because those map to stop_signal and reload_signal.
           control = []
@@ -177,7 +184,6 @@ module PoiseService
           control.uniq!
           r.control control
           r.control_template_names Hash.new { 'template-control' } # There is no name only Zuul.
-          r.cookbook 'poise-service-runit'
           # Runit only supports the equivalent of our 'immediately' mode :-/
           r.restart_on_update new_resource.restart_on_update
         end
