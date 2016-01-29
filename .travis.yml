@@ -10,7 +10,6 @@ rvm:
 env:
   global:
   - USE_SYSTEM_GECODE=true
-  - KITCHEN_LOCAL_YAML=.kitchen.travis.yml
   - secure: kNNXqspdcPM4GuCo7VNCzbIh/fN/aGqTx6WgIIS8F9irYPH2IIFtDbKHqlk0S4rfmzbOk5MmnzYrmm3h5YXAkzGs7314ktczkdl+S2wkRY2GqGJuXmMYwXwCwVTrLJjcJypW7x1s0o4/aY5QDqV2IBpBSrIPT/oBMG+VjjWI8PA=
   - secure: y2w1rh3NEyAqV9ceIft2KDozYiPYM51G4i3tishT0Yupm0NPqg7ygX5C2O6Q8L2AR8I7WzXz2hp3vcvskmVTRyC+IIvMFxDUcsS4KVuFwR4wNBUVqETtKjg7b/SbAI5gpvnqVr8j0zrCQyVljUFzI1adPpe8NnKP6cxYZeSBX2g=
   - secure: 7SgF1m1gD+l4KoYQVLdZeOfAwT+Q5d9vxv6191eFfn89AsYS6xs8F702PzmRGZis8ELX7O4akVucpDMXS3iUdZFIj0h5gCwRTaAPAdwYJmd4iRdDa2wr3ckT2WNS1E/kY7Nj0F6kgNagik+WS/tAXa7k4r04nKpJPCPDuLCr92s=

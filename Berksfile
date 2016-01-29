@@ -22,11 +22,6 @@ cookbook 'poise', gem: 'poise'
 cookbook 'poise-service', gem: 'poise-service'
 cookbook 'poise-service-runit', gem: 'poise-service-runit'
 
-group :test do
-  cookbook 'poise-service-runit_test', path: 'test/cookbooks/poise-service-runit_test'
-  cookbook 'apt'
-end
-
 # For the master build, pull in the runit cookbook from git.
 if ENV['POISE_MASTER_BUILD']
   cookbook 'runit', github: 'hw-cookbooks/runit', branch: 'develop'
