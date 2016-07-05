@@ -6,7 +6,7 @@ addons:
     packages:
     - libgecode-dev
 rvm:
-- "2.2"
+- 2.3.1
 env:
   global:
   - USE_SYSTEM_GECODE=true
