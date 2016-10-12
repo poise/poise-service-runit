@@ -40,5 +40,10 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency 'berkshelf', '~> 4.0'
   spec.add_development_dependency 'poise-boiler', '~> 1.6'
 
-  spec.metadata['halite_dependencies'] = 'runit ~> 1.7'
+  # For master builds, just use whatever version is there.
+  spec.metadata['halite_dependencies'] = if ENV['POISE_MASTER_BUILD']
+    'runit'
+  else
+    'runit ~> 1.7'
+  end
 end
