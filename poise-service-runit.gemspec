@@ -26,7 +26,8 @@ Gem::Specification.new do |spec|
   spec.description = 'An extension for poise-service to support runit.'
   spec.summary = spec.description
   spec.homepage = 'https://github.com/poise/poise-service-runit'
-  spec.license = 'Apache 2.0'
+  spec.license = 'Apache-2.0'
+  spec.metadata['platforms'] = 'ubuntu debian centos redhat amazon scientific oracle enterpriseenterprise zlinux'
 
   spec.files = `git ls-files`.split($/)
   spec.executables = spec.files.grep(%r{^bin/}) { |f| File.basename(f) }
